@@ -1,1 +1,1 @@
-from winshot import *
+from 截图 import *

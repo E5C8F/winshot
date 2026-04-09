@@ -119,6 +119,20 @@
             color: var(--text-secondary);
         }
         .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); }
+        .github-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+            margin-top: 1rem;
+        }
+        .github-link:hover { background: var(--primary-dark, #0284c7); }
         section { padding: 60px 0; }
         section h2 {
             font-size: 1.75rem;
@@ -239,6 +253,8 @@
             color: var(--text-secondary);
             font-size: 0.9rem;
         }
+        footer a { color: var(--primary); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
             .nav-links { display: none; }
@@ -276,6 +292,10 @@
                 <span class="badge"><span class="badge-dot"></span><span data-zh="支持后台截图" data-en="Background Capture">支持后台截图</span></span>
                 <span class="badge"><span class="badge-dot"></span><span data-zh="DPI 感知" data-en="DPI Aware">DPI 感知</span></span>
             </div>
+            <a href="https://github.com/E5C8F/winshot" class="github-link" target="_blank">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.835 1.305 3.51.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                <span data-zh="查看源码" data-en="View Source">查看源码</span>
+            </a>
         </section>
         
         <section id="features">
@@ -319,29 +339,28 @@
             <div class="quick-start">
                 <ol>
                     <li>
-                        <strong data-zh="下载文件" data-en="Download the file">下载文件</strong><br>
-                        <span data-zh="将 截图.py 文件放入你的项目目录中。" data-en="Place WinShot.py in your project directory.">将 <code>截图.py</code> 文件放入你的项目目录中。</span>
+                        <strong data-zh="下载文件" data-en="Download">下载文件</strong><br>
+                        <span data-zh="将 截图.py 文件放入你的项目目录中。" data-en="Place screenshot.py in your project directory.">将 <code>截图.py</code> 文件放入你的项目目录中。</span>
                     </li>
                     <li>
-                        <strong data-zh="导入模块" data-en="Import the module">导入模块</strong>
+                        <strong data-zh="导入模块" data-en="Import">导入模块</strong>
                         <div class="code-block" style="margin-top: 0.5rem;">
                             <div class="code-header"><span>Python</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
-                            <pre id="code-import"><code><span class="keyword">import</span> 截图</code></pre>
+                            <pre id="code-import"></pre>
                         </div>
                     </li>
                     <li>
-                        <strong data-zh="设置 DPI 感知（推荐）" data-en="Set DPI awareness (recommended)">设置 DPI 感知（推荐）</strong>
+                        <strong data-zh="设置 DPI 感知（推荐）" data-en="Set DPI Awareness (Recommended)">设置 DPI 感知（推荐）</strong>
                         <div class="code-block" style="margin-top: 0.5rem;">
                             <div class="code-header"><span>Python</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
-                            <pre id="code-dpi"><code>截图.<span class="function">设置DPI感知</span>()</code></pre>
+                            <pre id="code-dpi"></pre>
                         </div>
                     </li>
                     <li>
-                        <strong data-zh="开始截图" data-en="Start capturing">开始截图</strong>
+                        <strong data-zh="开始截图" data-en="Start Capturing">开始截图</strong>
                         <div class="code-block" style="margin-top: 0.5rem;">
                             <div class="code-header"><span>Python</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
-                            <pre id="code-capture"><code>data = 截图.<span class="function">全屏截图</span>()
-截图.<span class="function">保存图片</span>(data, <span class="string">"screenshot.bmp"</span>)</code></pre>
+                            <pre id="code-capture"></pre>
                         </div>
                     </li>
                 </ol>
@@ -356,66 +375,66 @@
                 
                 <div class="api-item">
                     <div class="api-header">
-                        <div class="api-name"><span data-zh="BitBlt截图" data-en="bitblt_screenshot">BitBlt截图</span>(x1, y1, cx, cy, hwnd)</div>
-                        <div class="api-alias"><span data-zh="别名: bitblt_screenshot" data-en="Alias: BitBlt截图">别名: bitblt_screenshot</span></div>
+                        <div class="api-name" id="api-bitblt-name"></div>
+                        <div class="api-alias" id="api-bitblt-alias"></div>
                     </div>
                     <div class="api-body">
-                        <div class="api-desc" data-zh="通过 BitBlt 对指定窗口进行后台截图，支持区域截图。" data-en="Capture a window using BitBlt for background screenshot, supports region capture.">通过 BitBlt 对指定窗口进行后台截图，支持区域截图。</div>
+                        <div class="api-desc" id="api-bitblt-desc"></div>
                         <div class="api-params">
                             <h4 data-zh="参数" data-en="Parameters">参数</h4>
                             <ul class="param-list">
-                                <li><span class="param-name">x1, y1</span> <span class="param-type">int</span> - <span data-zh="源矩形左上角的坐标（相对于窗口左上角）" data-en="Top-left coordinates of source rectangle (relative to window)">源矩形左上角的坐标（相对于窗口左上角）</span></li>
-                                <li><span class="param-name">cx, cy</span> <span class="param-type">int</span> - <span data-zh="要截取的区域宽高（像素）" data-en="Width and height of the region to capture (pixels)">要截取的区域宽高（像素）</span></li>
-                                <li><span class="param-name">hwnd</span> <span class="param-type">HWND</span> - <span data-zh="窗口句柄，默认为桌面窗口句柄" data-en="Window handle, defaults to desktop window">窗口句柄，默认为桌面窗口句柄</span></li>
+                                <li><span class="param-name">x1, y1</span> <span class="param-type">int</span> - <span id="api-bitblt-p1"></span></li>
+                                <li><span class="param-name">cx, cy</span> <span class="param-type">int</span> - <span id="api-bitblt-p2"></span></li>
+                                <li><span class="param-name">hwnd</span> <span class="param-type">HWND</span> - <span id="api-bitblt-p3"></span></li>
                             </ul>
                         </div>
                         <div class="api-returns">
                             <h4 data-zh="返回值" data-en="Returns">返回值</h4>
-                            <p data-zh="返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。" data-en="BGRA image data as bytearray with width and height attributes.">返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。</p>
+                            <p data-zh="返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。" data-en="Returns BGRA image data as bytearray with width and height attributes.">返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="api-item">
                     <div class="api-header">
-                        <div class="api-name"><span data-zh="StretchBlt截图" data-en="stretchblt_screenshot">StretchBlt截图</span>(wDest, hDest, xSrc, ySrc, wSrc, hSrc, hwnd)</div>
-                        <div class="api-alias"><span data-zh="别名: stretchblt_screenshot" data-en="Alias: StretchBlt截图">别名: stretchblt_screenshot</span></div>
+                        <div class="api-name" id="api-stretch-name"></div>
+                        <div class="api-alias" id="api-stretch-alias"></div>
                     </div>
                     <div class="api-body">
-                        <div class="api-desc" data-zh="通过 StretchBlt 对指定窗口进行后台截图并缩放到目标尺寸。" data-en="Capture and scale a window region using StretchBlt.">通过 StretchBlt 对指定窗口进行后台截图并缩放到目标尺寸。</div>
+                        <div class="api-desc" id="api-stretch-desc"></div>
                         <div class="api-params">
                             <h4 data-zh="参数" data-en="Parameters">参数</h4>
                             <ul class="param-list">
-                                <li><span class="param-name">wDest, hDest</span> <span class="param-type">int</span> - <span data-zh="目标矩形的宽高（缩放后的尺寸）" data-en="Target dimensions (scaled size)">目标矩形的宽高（缩放后的尺寸）</span></li>
-                                <li><span class="param-name">xSrc, ySrc</span> <span class="param-type">int</span> - <span data-zh="源矩形左上角的坐标" data-en="Top-left coordinates of source rectangle">源矩形左上角的坐标</span></li>
-                                <li><span class="param-name">wSrc, hSrc</span> <span class="param-type">int</span> - <span data-zh="源矩形的宽高" data-en="Source region dimensions">源矩形的宽高</span></li>
-                                <li><span class="param-name">hwnd</span> <span class="param-type">HWND</span> - <span data-zh="窗口句柄，默认为桌面窗口句柄" data-en="Window handle, defaults to desktop window">窗口句柄，默认为桌面窗口句柄</span></li>
+                                <li><span class="param-name">wDest, hDest</span> <span class="param-type">int</span> - <span id="api-stretch-p1"></span></li>
+                                <li><span class="param-name">xSrc, ySrc</span> <span class="param-type">int</span> - <span id="api-stretch-p2"></span></li>
+                                <li><span class="param-name">wSrc, hSrc</span> <span class="param-type">int</span> - <span id="api-stretch-p3"></span></li>
+                                <li><span class="param-name">hwnd</span> <span class="param-type">HWND</span> - <span id="api-stretch-p4"></span></li>
                             </ul>
                         </div>
                         <div class="api-returns">
                             <h4 data-zh="返回值" data-en="Returns">返回值</h4>
-                            <p data-zh="返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。" data-en="BGRA image data as bytearray with width and height attributes.">返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。</p>
+                            <p data-zh="返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。" data-en="Returns BGRA image data as bytearray with width and height attributes.">返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="api-item">
                     <div class="api-header">
-                        <div class="api-name"><span data-zh="PrintWindow截图" data-en="printwindow_screenshot">PrintWindow截图</span>(w, h, hwnd)</div>
-                        <div class="api-alias"><span data-zh="别名: printwindow_screenshot" data-en="Alias: PrintWindow截图">别名: printwindow_screenshot</span></div>
+                        <div class="api-name" id="api-print-name"></div>
+                        <div class="api-alias" id="api-print-alias"></div>
                     </div>
                     <div class="api-body">
-                        <div class="api-desc" data-zh="通过 PrintWindow API 对窗口进行后台截图，适用于被遮挡的窗口。" data-en="Capture a window using PrintWindow API, suitable for obscured windows.">通过 PrintWindow API 对窗口进行后台截图，适用于被遮挡的窗口。</div>
+                        <div class="api-desc" id="api-print-desc"></div>
                         <div class="api-params">
                             <h4 data-zh="参数" data-en="Parameters">参数</h4>
                             <ul class="param-list">
-                                <li><span class="param-name">w, h</span> <span class="param-type">int</span> - <span data-zh="目标窗口的宽高" data-en="Window dimensions">目标窗口的宽高</span></li>
-                                <li><span class="param-name">hwnd</span> <span class="param-type">HWND</span> - <span data-zh="窗口句柄" data-en="Window handle">窗口句柄</span></li>
+                                <li><span class="param-name">w, h</span> <span class="param-type">int</span> - <span id="api-print-p1"></span></li>
+                                <li><span class="param-name">hwnd</span> <span class="param-type">HWND</span> - <span id="api-print-p2"></span></li>
                             </ul>
                         </div>
                         <div class="api-returns">
                             <h4 data-zh="返回值" data-en="Returns">返回值</h4>
-                            <p data-zh="返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。" data-en="BGRA image data as bytearray with width and height attributes.">返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。</p>
+                            <p data-zh="返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。" data-en="Returns BGRA image data as bytearray with width and height attributes.">返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。</p>
                         </div>
                     </div>
                 </div>
@@ -426,34 +445,34 @@
                 
                 <div class="api-item">
                     <div class="api-header">
-                        <div class="api-name"><span data-zh="全屏截图" data-en="full_screenshot">全屏截图</span>()</div>
-                        <div class="api-alias"><span data-zh="别名: full_screenshot" data-en="Alias: 全屏截图">别名: full_screenshot</span></div>
+                        <div class="api-name" id="api-full-name"></div>
+                        <div class="api-alias" id="api-full-alias"></div>
                     </div>
                     <div class="api-body">
-                        <div class="api-desc" data-zh="获取整个屏幕的截图。" data-en="Capture the entire screen.">获取整个屏幕的截图。</div>
+                        <div class="api-desc" id="api-full-desc"></div>
                         <div class="api-returns">
                             <h4 data-zh="返回值" data-en="Returns">返回值</h4>
-                            <p data-zh="返回二进制格式的 BGRA 图像数据。" data-en="BGRA image data.">返回二进制格式的 BGRA 图像数据。</p>
+                            <p data-zh="返回二进制格式的 BGRA 图像数据。" data-en="Returns BGRA image data.">返回二进制格式的 BGRA 图像数据。</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="api-item">
                     <div class="api-header">
-                        <div class="api-name"><span data-zh="前台窗口截图" data-en="foreground_window_screenshot">前台窗口截图</span>(hwnd)</div>
-                        <div class="api-alias"><span data-zh="别名: foreground_window_screenshot" data-en="Alias: 前台窗口截图">别名: foreground_window_screenshot</span></div>
+                        <div class="api-name" id="api-fore-name"></div>
+                        <div class="api-alias" id="api-fore-alias"></div>
                     </div>
                     <div class="api-body">
-                        <div class="api-desc" data-zh="获取指定窗口的截图。注意：如果窗口被遮挡，截图结果也会包含遮挡内容。" data-en="Capture a specific window. Note: If the window is obscured, the capture will include the overlapping content.">获取指定窗口的截图。注意：如果窗口被遮挡，截图结果也会包含遮挡内容。</div>
+                        <div class="api-desc" id="api-fore-desc"></div>
                         <div class="api-params">
                             <h4 data-zh="参数" data-en="Parameters">参数</h4>
                             <ul class="param-list">
-                                <li><span class="param-name">hwnd</span> <span class="param-type">HWND</span> - <span data-zh="窗口句柄，默认为桌面窗口句柄" data-en="Window handle, defaults to desktop window">窗口句柄，默认为桌面窗口句柄</span></li>
+                                <li><span class="param-name">hwnd</span> <span class="param-type">HWND</span> - <span id="api-fore-p1"></span></li>
                             </ul>
                         </div>
                         <div class="api-returns">
                             <h4 data-zh="返回值" data-en="Returns">返回值</h4>
-                            <p data-zh="返回二进制格式的 BGRA 图像数据。" data-en="BGRA image data.">返回二进制格式的 BGRA 图像数据。</p>
+                            <p data-zh="返回二进制格式的 BGRA 图像数据。" data-en="Returns BGRA image data.">返回二进制格式的 BGRA 图像数据。</p>
                         </div>
                     </div>
                 </div>
@@ -464,35 +483,35 @@
                 
                 <div class="api-item">
                     <div class="api-header">
-                        <div class="api-name"><span data-zh="获取窗口位置" data-en="get_window_position">获取窗口位置</span>(hwnd)</div>
-                        <div class="api-alias"><span data-zh="别名: get_window_position" data-en="Alias: 获取窗口位置">别名: get_window_position</span></div>
+                        <div class="api-name" id="api-pos-name"></div>
+                        <div class="api-alias" id="api-pos-alias"></div>
                     </div>
                     <div class="api-body">
-                        <div class="api-desc" data-zh="获取窗口的位置坐标。" data-en="Get window position coordinates.">获取窗口的位置坐标。</div>
+                        <div class="api-desc" id="api-pos-desc"></div>
                         <div class="api-params">
                             <h4 data-zh="参数" data-en="Parameters">参数</h4>
                             <ul class="param-list">
-                                <li><span class="param-name">hwnd</span> <span class="param-type">HWND</span> - <span data-zh="窗口句柄，默认为桌面窗口句柄" data-en="Window handle, defaults to desktop window">窗口句柄，默认为桌面窗口句柄</span></li>
+                                <li><span class="param-name">hwnd</span> <span class="param-type">HWND</span> - <span id="api-pos-p1"></span></li>
                             </ul>
                         </div>
                         <div class="api-returns">
                             <h4 data-zh="返回值" data-en="Returns">返回值</h4>
-                            <p data-zh="返回元组 (left, top, right, bottom)，表示窗口的坐标位置。" data-en="Tuple (left, top, right, bottom) representing window coordinates.">返回元组 <code>(left, top, right, bottom)</code>，表示窗口的坐标位置。</p>
+                            <p data-zh="返回元组 (left, top, right, bottom)，表示窗口的坐标位置。" data-en="Returns tuple (left, top, right, bottom) representing window coordinates.">返回元组 <code>(left, top, right, bottom)</code>，表示窗口的坐标位置。</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="api-item">
                     <div class="api-header">
-                        <div class="api-name"><span data-zh="设置DPI感知" data-en="set_process_dpi_awareness">设置DPI感知</span>(PROCESS_DPI_AWARENESS)</div>
-                        <div class="api-alias"><span data-zh="别名: set_process_dpi_awareness" data-en="Alias: 设置DPI感知">别名: set_process_dpi_awareness</span></div>
+                        <div class="api-name" id="api-dpi-name"></div>
+                        <div class="api-alias" id="api-dpi-alias"></div>
                     </div>
                     <div class="api-body">
-                        <div class="api-desc" data-zh="设置进程的 DPI 感知级别，建议在程序启动时调用。" data-en="Set process DPI awareness level. Recommended to call at program startup.">设置进程的 DPI 感知级别，建议在程序启动时调用。</div>
+                        <div class="api-desc" id="api-dpi-desc"></div>
                         <div class="api-params">
                             <h4 data-zh="参数" data-en="Parameters">参数</h4>
                             <ul class="param-list">
-                                <li><span class="param-name">PROCESS_DPI_AWARENESS</span> <span class="param-type">int</span> - <span data-zh="DPI 感知级别：0=不感知, 1=系统DPI感知, 2=按监视器DPI感知（默认推荐）" data-en="DPI awareness level: 0=Unaware, 1=System DPI aware, 2=Per-monitor DPI aware (default, recommended)">DPI 感知级别：0=不感知, 1=系统DPI感知, 2=按监视器DPI感知（默认推荐）</span></li>
+                                <li><span class="param-name">PROCESS_DPI_AWARENESS</span> <span class="param-type">int</span> - <span id="api-dpi-p1"></span></li>
                             </ul>
                         </div>
                         <div class="api-returns">
@@ -504,17 +523,17 @@
                 
                 <div class="api-item">
                     <div class="api-header">
-                        <div class="api-name"><span data-zh="保存图片" data-en="save_image">保存图片</span>(bitmap_data, filepath, width, height)</div>
-                        <div class="api-alias"><span data-zh="别名: save_image" data-en="Alias: 保存图片">别名: save_image</span></div>
+                        <div class="api-name" id="api-save-name"></div>
+                        <div class="api-alias" id="api-save-alias"></div>
                     </div>
                     <div class="api-body">
-                        <div class="api-desc" data-zh="将位图数据保存为 BMP 格式图片文件。" data-en="Save bitmap data as BMP format image file.">将位图数据保存为 BMP 格式图片文件。</div>
+                        <div class="api-desc" id="api-save-desc"></div>
                         <div class="api-params">
                             <h4 data-zh="参数" data-en="Parameters">参数</h4>
                             <ul class="param-list">
-                                <li><span class="param-name">bitmap_data</span> <span class="param-type">bytes</span> - <span data-zh="二进制格式的 BGRA 图像数据" data-en="BGRA image data">二进制格式的 BGRA 图像数据</span></li>
-                                <li><span class="param-name">filepath</span> <span class="param-type">str</span> - <span data-zh="图片文件保存路径" data-en="Output file path">图片文件保存路径</span></li>
-                                <li><span class="param-name">width, height</span> <span class="param-type">int</span> - <span data-zh="图像宽高（可选）" data-en="Image dimensions (optional)">图像宽高（可选）</span></li>
+                                <li><span class="param-name">bitmap_data</span> <span class="param-type">bytes</span> - <span id="api-save-p1"></span></li>
+                                <li><span class="param-name">filepath</span> <span class="param-type">str</span> - <span id="api-save-p2"></span></li>
+                                <li><span class="param-name">width, height</span> <span class="param-type">int</span> - <span id="api-save-p3"></span></li>
                             </ul>
                         </div>
                     </div>
@@ -526,94 +545,202 @@
             <h2 data-zh="使用示例" data-en="Usage Examples">使用示例</h2>
             
             <div class="code-block">
-                <div class="code-header"><span data-zh="示例 1: 基础截图" data-en="Example 1: Basic Capture">示例 1: 基础截图</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
-                <pre id="ex1"><code><span class="keyword">import</span> 截图
-
-截图.<span class="function">设置DPI感知</span>()
-data = 截图.<span class="function">全屏截图</span>()
-截图.<span class="function">保存图片</span>(data, <span class="string">"screenshot.bmp"</span>)</code></pre>
+                <div class="code-header"><span id="ex1-title"></span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                <pre id="ex1"></pre>
             </div>
             
             <div class="code-block" style="margin-top: 1.5rem;">
-                <div class="code-header"><span data-zh="示例 2: 区域截图" data-en="Example 2: Region Capture">示例 2: 区域截图</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
-                <pre id="ex2"><code><span class="keyword">import</span> 截图
-
-data = 截图.<span class="function">BitBlt截图</span>(<span class="number">100</span>, <span class="number">100</span>, <span class="number">800</span>, <span class="number">600</span>)
-截图.<span class="function">保存图片</span>(data, <span class="string">"region.bmp"</span>)</code></pre>
+                <div class="code-header"><span id="ex2-title"></span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                <pre id="ex2"></pre>
             </div>
             
             <div class="code-block" style="margin-top: 1.5rem;">
-                <div class="code-header"><span data-zh="示例 3: 窗口截图" data-en="Example 3: Window Capture">示例 3: 窗口截图</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
-                <pre id="ex3"><code><span class="keyword">import</span> 截图
-<span class="keyword">import</span> ctypes
-
-user32 = ctypes.windll.user32
-hwnd = user32.FindWindowW(<span class="string">"Notepad"</span>, <span class="keyword">None</span>)
-
-<span class="keyword">if</span> hwnd:
-    left, top, right, bottom = 截图.<span class="function">获取窗口位置</span>(hwnd)
-    data = 截图.<span class="function">PrintWindow截图</span>(right-left, bottom-top, hwnd)
-    截图.<span class="function">保存图片</span>(data, <span class="string">"window.bmp"</span>)</code></pre>
+                <div class="code-header"><span id="ex3-title"></span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                <pre id="ex3"></pre>
             </div>
             
             <div class="code-block" style="margin-top: 1.5rem;">
-                <div class="code-header"><span data-zh="示例 4: 缩放截图" data-en="Example 4: Scaled Capture">示例 4: 缩放截图</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
-                <pre id="ex4"><code><span class="keyword">import</span> 截图
-
-data = 截图.<span class="function">StretchBlt截图</span>(<span class="number">640</span>, <span class="number">360</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1920</span>, <span class="number">1080</span>)
-截图.<span class="function">保存图片</span>(data, <span class="string">"scaled.bmp"</span>)</code></pre>
+                <div class="code-header"><span id="ex4-title"></span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                <pre id="ex4"></pre>
             </div>
         </section>
     </main>
     
     <footer>
         <p data-zh="WinShot - 轻量级 Windows 截图库" data-en="WinShot - Lightweight Windows Screenshot Library">WinShot - 轻量级 Windows 截图库</p>
-        <p style="margin-top: 0.5rem;" data-zh="基于 Windows GDI API 实现 | 纯 Python | 零依赖" data-en="Based on Windows GDI API | Pure Python | Zero Dependencies">基于 Windows GDI API 实现 | 纯 Python | 零依赖</p>
+        <p style="margin-top: 0.5rem;"><a href="https://github.com/E5C8F/winshot" target="_blank">GitHub</a> | <span data-zh="基于 Windows GDI API 实现 | 纯 Python | 零依赖" data-en="Based on Windows GDI API | Pure Python | Zero Dependencies">基于 Windows GDI API 实现 | 纯 Python | 零依赖</span></p>
     </footer>
     
     <script>
-        const codeZh = {
+        // Chinese content
+        const zhContent = {
+            // Quick start code
             'code-import': '<code><span class="keyword">import</span> 截图</code>',
             'code-dpi': '<code>截图.<span class="function">设置DPI感知</span>()</code>',
             'code-capture': '<code>data = 截图.<span class="function">全屏截图</span>()\n截图.<span class="function">保存图片</span>(data, <span class="string">"screenshot.bmp"</span>)</code>',
+            
+            // API names and aliases
+            'api-bitblt-name': 'BitBlt截图(x1, y1, cx, cy, hwnd)',
+            'api-bitblt-alias': '别名: bitblt_screenshot',
+            'api-bitblt-desc': '通过 BitBlt 对指定窗口进行后台截图，支持区域截图。',
+            'api-bitblt-p1': '源矩形左上角的坐标（相对于窗口左上角）',
+            'api-bitblt-p2': '要截取的区域宽高（像素）',
+            'api-bitblt-p3': '窗口句柄，默认为桌面窗口句柄',
+            
+            'api-stretch-name': 'StretchBlt截图(wDest, hDest, xSrc, ySrc, wSrc, hSrc, hwnd)',
+            'api-stretch-alias': '别名: stretchblt_screenshot',
+            'api-stretch-desc': '通过 StretchBlt 对指定窗口进行后台截图并缩放到目标尺寸。',
+            'api-stretch-p1': '目标矩形的宽高（缩放后的尺寸）',
+            'api-stretch-p2': '源矩形左上角的坐标',
+            'api-stretch-p3': '源矩形的宽高',
+            'api-stretch-p4': '窗口句柄，默认为桌面窗口句柄',
+            
+            'api-print-name': 'PrintWindow截图(w, h, hwnd)',
+            'api-print-alias': '别名: printwindow_screenshot',
+            'api-print-desc': '通过 PrintWindow API 对窗口进行后台截图，适用于被遮挡的窗口。',
+            'api-print-p1': '目标窗口的宽高',
+            'api-print-p2': '窗口句柄',
+            
+            'api-full-name': '全屏截图()',
+            'api-full-alias': '别名: full_screenshot',
+            'api-full-desc': '获取整个屏幕的截图。',
+            
+            'api-fore-name': '前台窗口截图(hwnd)',
+            'api-fore-alias': '别名: foreground_window_screenshot',
+            'api-fore-desc': '获取指定窗口的截图。注意：如果窗口被遮挡，截图结果也会包含遮挡内容。',
+            'api-fore-p1': '窗口句柄，默认为桌面窗口句柄',
+            
+            'api-pos-name': '获取窗口位置(hwnd)',
+            'api-pos-alias': '别名: get_window_position',
+            'api-pos-desc': '获取窗口的位置坐标。',
+            'api-pos-p1': '窗口句柄，默认为桌面窗口句柄',
+            
+            'api-dpi-name': '设置DPI感知(PROCESS_DPI_AWARENESS)',
+            'api-dpi-alias': '别名: set_process_dpi_awareness',
+            'api-dpi-desc': '设置进程的 DPI 感知级别，建议在程序启动时调用。',
+            'api-dpi-p1': 'DPI 感知级别：0=不感知, 1=系统DPI感知, 2=按监视器DPI感知（默认推荐）',
+            
+            'api-save-name': '保存图片(bitmap_data, filepath, width, height)',
+            'api-save-alias': '别名: save_image',
+            'api-save-desc': '将位图数据保存为 BMP 格式图片文件。',
+            'api-save-p1': '二进制格式的 BGRA 图像数据',
+            'api-save-p2': '图片文件保存路径',
+            'api-save-p3': '图像宽高（可选）',
+            
+            // Examples
+            'ex1-title': '示例 1: 基础截图',
             'ex1': '<code><span class="keyword">import</span> 截图\n\n截图.<span class="function">设置DPI感知</span>()\ndata = 截图.<span class="function">全屏截图</span>()\n截图.<span class="function">保存图片</span>(data, <span class="string">"screenshot.bmp"</span>)</code>',
+            
+            'ex2-title': '示例 2: 区域截图',
             'ex2': '<code><span class="keyword">import</span> 截图\n\ndata = 截图.<span class="function">BitBlt截图</span>(<span class="number">100</span>, <span class="number">100</span>, <span class="number">800</span>, <span class="number">600</span>)\n截图.<span class="function">保存图片</span>(data, <span class="string">"region.bmp"</span>)</code>',
+            
+            'ex3-title': '示例 3: 窗口截图',
             'ex3': '<code><span class="keyword">import</span> 截图\n<span class="keyword">import</span> ctypes\n\nuser32 = ctypes.windll.user32\nhwnd = user32.FindWindowW(<span class="string">"Notepad"</span>, <span class="keyword">None</span>)\n\n<span class="keyword">if</span> hwnd:\n    left, top, right, bottom = 截图.<span class="function">获取窗口位置</span>(hwnd)\n    data = 截图.<span class="function">PrintWindow截图</span>(right-left, bottom-top, hwnd)\n    截图.<span class="function">保存图片</span>(data, <span class="string">"window.bmp"</span>)</code>',
+            
+            'ex4-title': '示例 4: 缩放截图',
             'ex4': '<code><span class="keyword">import</span> 截图\n\ndata = 截图.<span class="function">StretchBlt截图</span>(<span class="number">640</span>, <span class="number">360</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1920</span>, <span class="number">1080</span>)\n截图.<span class="function">保存图片</span>(data, <span class="string">"scaled.bmp"</span>)</code>'
         };
         
-        const codeEn = {
-            'code-import': '<code><span class="keyword">import</span> winshot</code>',
-            'code-dpi': '<code>winshot.<span class="function">set_process_dpi_awareness</span>()</code>',
-            'code-capture': '<code>data = winshot.<span class="function">full_screenshot</span>()\nwinshot.<span class="function">save_image</span>(data, <span class="string">"screenshot.bmp"</span>)</code>',
-            'ex1': '<code><span class="keyword">import</span> winshot\n\nwinshot.<span class="function">set_process_dpi_awareness</span>()\ndata = winshot.<span class="function">full_screenshot</span>()\nwinshot.<span class="function">save_image</span>(data, <span class="string">"screenshot.bmp"</span>)</code>',
-            'ex2': '<code><span class="keyword">import</span> winshot\n\ndata = winshot.<span class="function">bitblt_screenshot</span>(<span class="number">100</span>, <span class="number">100</span>, <span class="number">800</span>, <span class="number">600</span>)\nwinshot.<span class="function">save_image</span>(data, <span class="string">"region.bmp"</span>)</code>',
-            'ex3': '<code><span class="keyword">import</span> winshot\n<span class="keyword">import</span> ctypes\n\nuser32 = ctypes.windll.user32\nhwnd = user32.FindWindowW(<span class="string">"Notepad"</span>, <span class="keyword">None</span>)\n\n<span class="keyword">if</span> hwnd:\n    left, top, right, bottom = winshot.<span class="function">get_window_position</span>(hwnd)\n    data = winshot.<span class="function">printwindow_screenshot</span>(right-left, bottom-top, hwnd)\n    winshot.<span class="function">save_image</span>(data, <span class="string">"window.bmp"</span>)</code>',
-            'ex4': '<code><span class="keyword">import</span> winshot\n\ndata = winshot.<span class="function">stretchblt_screenshot</span>(<span class="number">640</span>, <span class="number">360</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1920</span>, <span class="number">1080</span>)\nwinshot.<span class="function">save_image</span>(data, <span class="string">"scaled.bmp"</span>)</code>'
+        // English content (no Chinese characters)
+        const enContent = {
+            // Quick start code
+            'code-import': '<code><span class="keyword">import</span> WinShot</code>',
+            'code-dpi': '<code>WinShot.<span class="function">set_process_dpi_awareness</span>()</code>',
+            'code-capture': '<code>data = WinShot.<span class="function">full_screenshot</span>()\nWinShot.<span class="function">save_image</span>(data, <span class="string">"screenshot.bmp"</span>)</code>',
+            
+            // API names and aliases
+            'api-bitblt-name': 'bitblt_screenshot(x1, y1, cx, cy, hwnd)',
+            'api-bitblt-alias': 'Alias: BitBlt截图',
+            'api-bitblt-desc': 'Capture a window using BitBlt for background screenshot, supports region capture.',
+            'api-bitblt-p1': 'Top-left coordinates of source rectangle (relative to window)',
+            'api-bitblt-p2': 'Width and height of the region to capture (pixels)',
+            'api-bitblt-p3': 'Window handle, defaults to desktop window',
+            
+            'api-stretch-name': 'stretchblt_screenshot(wDest, hDest, xSrc, ySrc, wSrc, hSrc, hwnd)',
+            'api-stretch-alias': 'Alias: StretchBlt截图',
+            'api-stretch-desc': 'Capture and scale a window region using StretchBlt.',
+            'api-stretch-p1': 'Target dimensions (scaled size)',
+            'api-stretch-p2': 'Top-left coordinates of source rectangle',
+            'api-stretch-p3': 'Source region dimensions',
+            'api-stretch-p4': 'Window handle, defaults to desktop window',
+            
+            'api-print-name': 'printwindow_screenshot(w, h, hwnd)',
+            'api-print-alias': 'Alias: PrintWindow截图',
+            'api-print-desc': 'Capture a window using PrintWindow API, suitable for obscured windows.',
+            'api-print-p1': 'Window dimensions',
+            'api-print-p2': 'Window handle',
+            
+            'api-full-name': 'full_screenshot()',
+            'api-full-alias': 'Alias: 全屏截图',
+            'api-full-desc': 'Capture the entire screen.',
+            
+            'api-fore-name': 'foreground_window_screenshot(hwnd)',
+            'api-fore-alias': 'Alias: 前台窗口截图',
+            'api-fore-desc': 'Capture a specific window. Note: If the window is obscured, the capture will include the overlapping content.',
+            'api-fore-p1': 'Window handle, defaults to desktop window',
+            
+            'api-pos-name': 'get_window_position(hwnd)',
+            'api-pos-alias': 'Alias: 获取窗口位置',
+            'api-pos-desc': 'Get window position coordinates.',
+            'api-pos-p1': 'Window handle, defaults to desktop window',
+            
+            'api-dpi-name': 'set_process_dpi_awareness(PROCESS_DPI_AWARENESS)',
+            'api-dpi-alias': 'Alias: 设置DPI感知',
+            'api-dpi-desc': 'Set process DPI awareness level. Recommended to call at program startup.',
+            'api-dpi-p1': 'DPI awareness level: 0=Unaware, 1=System DPI aware, 2=Per-monitor DPI aware (default, recommended)',
+            
+            'api-save-name': 'save_image(bitmap_data, filepath, width, height)',
+            'api-save-alias': 'Alias: 保存图片',
+            'api-save-desc': 'Save bitmap data as BMP format image file.',
+            'api-save-p1': 'BGRA image data',
+            'api-save-p2': 'Output file path',
+            'api-save-p3': 'Image dimensions (optional)',
+            
+            // Examples
+            'ex1-title': 'Example 1: Basic Capture',
+            'ex1': '<code><span class="keyword">import</span> WinShot\n\nWinShot.<span class="function">set_process_dpi_awareness</span>()\ndata = WinShot.<span class="function">full_screenshot</span>()\nWinShot.<span class="function">save_image</span>(data, <span class="string">"screenshot.bmp"</span>)</code>',
+            
+            'ex2-title': 'Example 2: Region Capture',
+            'ex2': '<code><span class="keyword">import</span> WinShot\n\ndata = WinShot.<span class="function">bitblt_screenshot</span>(<span class="number">100</span>, <span class="number">100</span>, <span class="number">800</span>, <span class="number">600</span>)\nWinShot.<span class="function">save_image</span>(data, <span class="string">"region.bmp"</span>)</code>',
+            
+            'ex3-title': 'Example 3: Window Capture',
+            'ex3': '<code><span class="keyword">import</span> WinShot\n<span class="keyword">import</span> ctypes\n\nuser32 = ctypes.windll.user32\nhwnd = user32.FindWindowW(<span class="string">"Notepad"</span>, <span class="keyword">None</span>)\n\n<span class="keyword">if</span> hwnd:\n    left, top, right, bottom = WinShot.<span class="function">get_window_position</span>(hwnd)\n    data = WinShot.<span class="function">printwindow_screenshot</span>(right-left, bottom-top, hwnd)\n    WinShot.<span class="function">save_image</span>(data, <span class="string">"window.bmp"</span>)</code>',
+            
+            'ex4-title': 'Example 4: Scaled Capture',
+            'ex4': '<code><span class="keyword">import</span> WinShot\n\ndata = WinShot.<span class="function">stretchblt_screenshot</span>(<span class="number">640</span>, <span class="number">360</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1920</span>, <span class="number">1080</span>)\nWinShot.<span class="function">save_image</span>(data, <span class="string">"scaled.bmp"</span>)</code>'
         };
         
         const langBtns = document.querySelectorAll('.lang-btn');
+        
+        function updateContent(lang) {
+            const content = lang === 'zh' ? zhContent : enContent;
+            
+            // Update text elements
+            document.querySelectorAll('[data-zh][data-en]').forEach(el => {
+                el.textContent = el.dataset[lang];
+            });
+            
+            // Update code and API content
+            Object.keys(content).forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = content[id];
+            });
+            
+            // Update HTML lang
+            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        }
         
         langBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const lang = btn.dataset.lang;
                 langBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                
-                document.querySelectorAll('[data-zh][data-en]').forEach(el => {
-                    el.textContent = el.dataset[lang];
-                });
-                
-                document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
-                
-                // Update code blocks
-                const codes = lang === 'zh' ? codeZh : codeEn;
-                Object.keys(codes).forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.innerHTML = codes[id];
-                });
+                updateContent(lang);
             });
         });
+        
+        // Initialize with Chinese
+        updateContent('zh');
         
         function copyCode(btn) {
             const codeBlock = btn.closest('.code-block');

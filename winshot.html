@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WinShot - Lightweight Windows Screenshot Library</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #0ea5e9;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-code: #0d1117;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+            --success: #22c55e;
+            --warning: #f59e0b;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 0 2rem;
+        }
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-right { display: flex; align-items: center; gap: 2rem; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--primary); }
+        .lang-switch {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.25rem;
+        }
+        .lang-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .lang-btn.active { background: var(--primary); color: white; }
+        .lang-btn:hover:not(.active) { background: rgba(14, 165, 233, 0.2); }
+        main { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
+        .hero {
+            padding: 140px 0 80px;
+            text-align: center;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(ellipse, rgba(14, 165, 233, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero .subtitle { font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 2rem; }
+        .hero .description { max-width: 600px; margin: 0 auto 2rem; color: var(--text-secondary); }
+        .badges { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); }
+        section { padding: 60px 0; }
+        section h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        section h2::before { content: ''; width: 4px; height: 1.5rem; background: var(--primary); border-radius: 2px; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .feature-card:hover { transform: translateY(-2px); border-color: var(--primary); }
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), #06b6d4);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .feature-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .feature-card p { color: var(--text-secondary); font-size: 0.9rem; }
+        .api-section { margin-bottom: 2rem; }
+        .api-section h3 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .api-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        .api-header {
+            padding: 1rem 1.5rem;
+            background: rgba(14, 165, 233, 0.1);
+            border-bottom: 1px solid var(--border);
+        }
+        .api-name { font-family: 'Fira Code', 'Consolas', monospace; font-size: 1.1rem; color: var(--primary); }
+        .api-alias { font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem; }
+        .api-body { padding: 1.5rem; }
+        .api-desc { margin-bottom: 1rem; }
+        .api-params, .api-returns, .api-notes { margin-bottom: 1rem; }
+        .api-params h4, .api-returns h4, .api-notes h4 { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .param-list { list-style: none; }
+        .param-list li { padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .param-list li:last-child { border-bottom: none; }
+        .param-name { font-family: 'Fira Code', 'Consolas', monospace; color: var(--warning); }
+        .param-type { color: var(--text-secondary); font-size: 0.85rem; }
+        .notes-list { list-style: disc; padding-left: 1.5rem; font-size: 0.9rem; color: var(--text-secondary); }
+        .notes-list li { margin-bottom: 0.25rem; }
+        .code-block {
+            position: relative;
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .copy-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+        .copy-btn:hover { background: var(--primary); border-color: var(--primary); color: white; }
+        pre {
+            padding: 1rem 1.5rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        .keyword { color: #ff79c6; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; }
+        .function { color: #50fa7b; }
+        .number { color: #bd93f9; }
+        .quick-start {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        .quick-start ol { padding-left: 1.5rem; }
+        .quick-start li { margin-bottom: 1rem; }
+        .quick-start li strong { color: var(--primary); }
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            main { padding: 0 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <div class="logo">WinShot</div>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="#features" data-zh="功能特性" data-en="Features">功能特性</a></li>
+                    <li><a href="#quickstart" data-zh="快速开始" data-en="Quick Start">快速开始</a></li>
+                    <li><a href="#api" data-zh="API 文档" data-en="API Reference">API 文档</a></li>
+                    <li><a href="#examples" data-zh="使用示例" data-en="Examples">使用示例</a></li>
+                </ul>
+                <div class="lang-switch">
+                    <button class="lang-btn active" data-lang="zh">中文</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <main>
+        <section class="hero">
+            <h1>WinShot</h1>
+            <p class="subtitle" data-zh="轻量级 Windows 截图库" data-en="Lightweight Windows Screenshot Library">轻量级 Windows 截图库</p>
+            <p class="description" data-zh="基于 Windows API 的纯 Python 截图解决方案，支持多种截图方式、后台截图、DPI 感知，无需任何第三方依赖。" data-en="A pure Python screenshot solution based on Windows API. Supports multiple capture methods, background capture, DPI awareness, with zero third-party dependencies.">基于 Windows API 的纯 Python 截图解决方案，支持多种截图方式、后台截图、DPI 感知，无需任何第三方依赖。</p>
+            <div class="badges">
+                <span class="badge"><span class="badge-dot"></span><span data-zh="纯 Python 实现" data-en="Pure Python">纯 Python 实现</span></span>
+                <span class="badge"><span class="badge-dot"></span><span data-zh="零依赖" data-en="Zero Dependencies">零依赖</span></span>
+                <span class="badge"><span class="badge-dot"></span><span data-zh="支持后台截图" data-en="Background Capture">支持后台截图</span></span>
+                <span class="badge"><span class="badge-dot"></span><span data-zh="DPI 感知" data-en="DPI Aware">DPI 感知</span></span>
+            </div>
+        </section>
+        
+        <section id="features">
+            <h2 data-zh="功能特性" data-en="Features">功能特性</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">📸</div>
+                    <h3 data-zh="多种截图方式" data-en="Multiple Capture Methods">多种截图方式</h3>
+                    <p data-zh="支持 BitBlt、StretchBlt、PrintWindow 三种截图方式，满足不同场景需求。" data-en="Supports BitBlt, StretchBlt, and PrintWindow for different capture scenarios.">支持 BitBlt、StretchBlt、PrintWindow 三种截图方式，满足不同场景需求。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👻</div>
+                    <h3 data-zh="后台截图" data-en="Background Capture">后台截图</h3>
+                    <p data-zh="支持对被遮挡或最小化的窗口进行截图，无需将窗口置于前台。" data-en="Capture obscured or minimized windows without bringing them to foreground.">支持对被遮挡或最小化的窗口进行截图，无需将窗口置于前台。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📐</div>
+                    <h3 data-zh="区域截图" data-en="Region Capture">区域截图</h3>
+                    <p data-zh="支持指定坐标和尺寸进行区域截图，灵活获取所需内容。" data-en="Capture specific screen regions with precise coordinates and dimensions.">支持指定坐标和尺寸进行区域截图，灵活获取所需内容。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3 data-zh="图像缩放" data-en="Image Scaling">图像缩放</h3>
+                    <p data-zh="StretchBlt 方式支持截图时直接缩放到指定尺寸，高效便捷。" data-en="StretchBlt supports direct scaling to target dimensions during capture.">StretchBlt 方式支持截图时直接缩放到指定尺寸，高效便捷。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🖥️</div>
+                    <h3 data-zh="DPI 感知" data-en="DPI Awareness">DPI 感知</h3>
+                    <p data-zh="内置 DPI 感知设置，完美适配高分辨率显示器。" data-en="Built-in DPI awareness settings for high-resolution display support.">内置 DPI 感知设置，完美适配高分辨率显示器。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3 data-zh="BMP 保存" data-en="BMP Export">BMP 保存</h3>
+                    <p data-zh="支持将截图数据直接保存为 BMP 格式图片文件。" data-en="Save screenshot data directly to BMP format image files.">支持将截图数据直接保存为 BMP 格式图片文件。</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="quickstart">
+            <h2 data-zh="快速开始" data-en="Quick Start">快速开始</h2>
+            <div class="quick-start">
+                <ol>
+                    <li>
+                        <strong data-zh="下载文件" data-en="Download the file">下载文件</strong><br>
+                        <span data-zh="将 截图.py 文件放入你的项目目录中。" data-en="Place WinShot.py in your project directory.">将 <code>截图.py</code> 文件放入你的项目目录中。</span>
+                    </li>
+                    <li>
+                        <strong data-zh="导入模块" data-en="Import the module">导入模块</strong>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+                            <div class="code-header"><span>Python</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                            <pre id="code-import"><code><span class="keyword">import</span> 截图</code></pre>
+                        </div>
+                    </li>
+                    <li>
+                        <strong data-zh="设置 DPI 感知（推荐）" data-en="Set DPI awareness (recommended)">设置 DPI 感知（推荐）</strong>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+                            <div class="code-header"><span>Python</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                            <pre id="code-dpi"><code>截图.<span class="function">设置DPI感知</span>()</code></pre>
+                        </div>
+                    </li>
+                    <li>
+                        <strong data-zh="开始截图" data-en="Start capturing">开始截图</strong>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+                            <div class="code-header"><span>Python</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                            <pre id="code-capture"><code>data = 截图.<span class="function">全屏截图</span>()
+截图.<span class="function">保存图片</span>(data, <span class="string">"screenshot.bmp"</span>)</code></pre>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </section>
+        
+        <section id="api">
+            <h2 data-zh="API 文档" data-en="API Reference">API 文档</h2>
+            
+            <div class="api-section">
+                <h3 data-zh="核心截图函数" data-en="Core Capture Functions">核心截图函数</h3>
+                
+                <div class="api-item">
+                    <div class="api-header">
+                        <div class="api-name"><span data-zh="BitBlt截图" data-en="bitblt_screenshot">BitBlt截图</span>(x1, y1, cx, cy, hwnd)</div>
+                        <div class="api-alias"><span data-zh="别名: bitblt_screenshot" data-en="Alias: BitBlt截图">别名: bitblt_screenshot</span></div>
+                    </div>
+                    <div class="api-body">
+                        <div class="api-desc" data-zh="通过 BitBlt 对指定窗口进行后台截图，支持区域截图。" data-en="Capture a window using BitBlt for background screenshot, supports region capture.">通过 BitBlt 对指定窗口进行后台截图，支持区域截图。</div>
+                        <div class="api-params">
+                            <h4 data-zh="参数" data-en="Parameters">参数</h4>
+                            <ul class="param-list">
+                                <li><span class="param-name">x1, y1</span> <span class="param-type">int</span> - <span data-zh="源矩形左上角的坐标（相对于窗口左上角）" data-en="Top-left coordinates of source rectangle (relative to window)">源矩形左上角的坐标（相对于窗口左上角）</span></li>
+                                <li><span class="param-name">cx, cy</span> <span class="param-type">int</span> - <span data-zh="要截取的区域宽高（像素）" data-en="Width and height of the region to capture (pixels)">要截取的区域宽高（像素）</span></li>
+                                <li><span class="param-name">hwnd</span> <span class="param-type">HWND</span> - <span data-zh="窗口句柄，默认为桌面窗口句柄" data-en="Window handle, defaults to desktop window">窗口句柄，默认为桌面窗口句柄</span></li>
+                            </ul>
+                        </div>
+                        <div class="api-returns">
+                            <h4 data-zh="返回值" data-en="Returns">返回值</h4>
+                            <p data-zh="返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。" data-en="BGRA image data as bytearray with width and height attributes.">返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="api-item">
+                    <div class="api-header">
+                        <div class="api-name"><span data-zh="StretchBlt截图" data-en="stretchblt_screenshot">StretchBlt截图</span>(wDest, hDest, xSrc, ySrc, wSrc, hSrc, hwnd)</div>
+                        <div class="api-alias"><span data-zh="别名: stretchblt_screenshot" data-en="Alias: StretchBlt截图">别名: stretchblt_screenshot</span></div>
+                    </div>
+                    <div class="api-body">
+                        <div class="api-desc" data-zh="通过 StretchBlt 对指定窗口进行后台截图并缩放到目标尺寸。" data-en="Capture and scale a window region using StretchBlt.">通过 StretchBlt 对指定窗口进行后台截图并缩放到目标尺寸。</div>
+                        <div class="api-params">
+                            <h4 data-zh="参数" data-en="Parameters">参数</h4>
+                            <ul class="param-list">
+                                <li><span class="param-name">wDest, hDest</span> <span class="param-type">int</span> - <span data-zh="目标矩形的宽高（缩放后的尺寸）" data-en="Target dimensions (scaled size)">目标矩形的宽高（缩放后的尺寸）</span></li>
+                                <li><span class="param-name">xSrc, ySrc</span> <span class="param-type">int</span> - <span data-zh="源矩形左上角的坐标" data-en="Top-left coordinates of source rectangle">源矩形左上角的坐标</span></li>
+                                <li><span class="param-name">wSrc, hSrc</span> <span class="param-type">int</span> - <span data-zh="源矩形的宽高" data-en="Source region dimensions">源矩形的宽高</span></li>
+                                <li><span class="param-name">hwnd</span> <span class="param-type">HWND</span> - <span data-zh="窗口句柄，默认为桌面窗口句柄" data-en="Window handle, defaults to desktop window">窗口句柄，默认为桌面窗口句柄</span></li>
+                            </ul>
+                        </div>
+                        <div class="api-returns">
+                            <h4 data-zh="返回值" data-en="Returns">返回值</h4>
+                            <p data-zh="返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。" data-en="BGRA image data as bytearray with width and height attributes.">返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="api-item">
+                    <div class="api-header">
+                        <div class="api-name"><span data-zh="PrintWindow截图" data-en="printwindow_screenshot">PrintWindow截图</span>(w, h, hwnd)</div>
+                        <div class="api-alias"><span data-zh="别名: printwindow_screenshot" data-en="Alias: PrintWindow截图">别名: printwindow_screenshot</span></div>
+                    </div>
+                    <div class="api-body">
+                        <div class="api-desc" data-zh="通过 PrintWindow API 对窗口进行后台截图，适用于被遮挡的窗口。" data-en="Capture a window using PrintWindow API, suitable for obscured windows.">通过 PrintWindow API 对窗口进行后台截图，适用于被遮挡的窗口。</div>
+                        <div class="api-params">
+                            <h4 data-zh="参数" data-en="Parameters">参数</h4>
+                            <ul class="param-list">
+                                <li><span class="param-name">w, h</span> <span class="param-type">int</span> - <span data-zh="目标窗口的宽高" data-en="Window dimensions">目标窗口的宽高</span></li>
+                                <li><span class="param-name">hwnd</span> <span class="param-type">HWND</span> - <span data-zh="窗口句柄" data-en="Window handle">窗口句柄</span></li>
+                            </ul>
+                        </div>
+                        <div class="api-returns">
+                            <h4 data-zh="返回值" data-en="Returns">返回值</h4>
+                            <p data-zh="返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。" data-en="BGRA image data as bytearray with width and height attributes.">返回二进制格式的 BGRA 图像数据（bytearray），包含 width 和 height 属性。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="api-section">
+                <h3 data-zh="便捷函数" data-en="Convenience Functions">便捷函数</h3>
+                
+                <div class="api-item">
+                    <div class="api-header">
+                        <div class="api-name"><span data-zh="全屏截图" data-en="full_screenshot">全屏截图</span>()</div>
+                        <div class="api-alias"><span data-zh="别名: full_screenshot" data-en="Alias: 全屏截图">别名: full_screenshot</span></div>
+                    </div>
+                    <div class="api-body">
+                        <div class="api-desc" data-zh="获取整个屏幕的截图。" data-en="Capture the entire screen.">获取整个屏幕的截图。</div>
+                        <div class="api-returns">
+                            <h4 data-zh="返回值" data-en="Returns">返回值</h4>
+                            <p data-zh="返回二进制格式的 BGRA 图像数据。" data-en="BGRA image data.">返回二进制格式的 BGRA 图像数据。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="api-item">
+                    <div class="api-header">
+                        <div class="api-name"><span data-zh="前台窗口截图" data-en="foreground_window_screenshot">前台窗口截图</span>(hwnd)</div>
+                        <div class="api-alias"><span data-zh="别名: foreground_window_screenshot" data-en="Alias: 前台窗口截图">别名: foreground_window_screenshot</span></div>
+                    </div>
+                    <div class="api-body">
+                        <div class="api-desc" data-zh="获取指定窗口的截图。注意：如果窗口被遮挡，截图结果也会包含遮挡内容。" data-en="Capture a specific window. Note: If the window is obscured, the capture will include the overlapping content.">获取指定窗口的截图。注意：如果窗口被遮挡，截图结果也会包含遮挡内容。</div>
+                        <div class="api-params">
+                            <h4 data-zh="参数" data-en="Parameters">参数</h4>
+                            <ul class="param-list">
+                                <li><span class="param-name">hwnd</span> <span class="param-type">HWND</span> - <span data-zh="窗口句柄，默认为桌面窗口句柄" data-en="Window handle, defaults to desktop window">窗口句柄，默认为桌面窗口句柄</span></li>
+                            </ul>
+                        </div>
+                        <div class="api-returns">
+                            <h4 data-zh="返回值" data-en="Returns">返回值</h4>
+                            <p data-zh="返回二进制格式的 BGRA 图像数据。" data-en="BGRA image data.">返回二进制格式的 BGRA 图像数据。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="api-section">
+                <h3 data-zh="辅助函数" data-en="Helper Functions">辅助函数</h3>
+                
+                <div class="api-item">
+                    <div class="api-header">
+                        <div class="api-name"><span data-zh="获取窗口位置" data-en="get_window_position">获取窗口位置</span>(hwnd)</div>
+                        <div class="api-alias"><span data-zh="别名: get_window_position" data-en="Alias: 获取窗口位置">别名: get_window_position</span></div>
+                    </div>
+                    <div class="api-body">
+                        <div class="api-desc" data-zh="获取窗口的位置坐标。" data-en="Get window position coordinates.">获取窗口的位置坐标。</div>
+                        <div class="api-params">
+                            <h4 data-zh="参数" data-en="Parameters">参数</h4>
+                            <ul class="param-list">
+                                <li><span class="param-name">hwnd</span> <span class="param-type">HWND</span> - <span data-zh="窗口句柄，默认为桌面窗口句柄" data-en="Window handle, defaults to desktop window">窗口句柄，默认为桌面窗口句柄</span></li>
+                            </ul>
+                        </div>
+                        <div class="api-returns">
+                            <h4 data-zh="返回值" data-en="Returns">返回值</h4>
+                            <p data-zh="返回元组 (left, top, right, bottom)，表示窗口的坐标位置。" data-en="Tuple (left, top, right, bottom) representing window coordinates.">返回元组 <code>(left, top, right, bottom)</code>，表示窗口的坐标位置。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="api-item">
+                    <div class="api-header">
+                        <div class="api-name"><span data-zh="设置DPI感知" data-en="set_process_dpi_awareness">设置DPI感知</span>(PROCESS_DPI_AWARENESS)</div>
+                        <div class="api-alias"><span data-zh="别名: set_process_dpi_awareness" data-en="Alias: 设置DPI感知">别名: set_process_dpi_awareness</span></div>
+                    </div>
+                    <div class="api-body">
+                        <div class="api-desc" data-zh="设置进程的 DPI 感知级别，建议在程序启动时调用。" data-en="Set process DPI awareness level. Recommended to call at program startup.">设置进程的 DPI 感知级别，建议在程序启动时调用。</div>
+                        <div class="api-params">
+                            <h4 data-zh="参数" data-en="Parameters">参数</h4>
+                            <ul class="param-list">
+                                <li><span class="param-name">PROCESS_DPI_AWARENESS</span> <span class="param-type">int</span> - <span data-zh="DPI 感知级别：0=不感知, 1=系统DPI感知, 2=按监视器DPI感知（默认推荐）" data-en="DPI awareness level: 0=Unaware, 1=System DPI aware, 2=Per-monitor DPI aware (default, recommended)">DPI 感知级别：0=不感知, 1=系统DPI感知, 2=按监视器DPI感知（默认推荐）</span></li>
+                            </ul>
+                        </div>
+                        <div class="api-returns">
+                            <h4 data-zh="返回值" data-en="Returns">返回值</h4>
+                            <p data-zh="返回 0 (S_OK) 表示成功，负数表示失败。" data-en="Returns 0 (S_OK) on success, negative value on failure.">返回 0 (S_OK) 表示成功，负数表示失败。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="api-item">
+                    <div class="api-header">
+                        <div class="api-name"><span data-zh="保存图片" data-en="save_image">保存图片</span>(bitmap_data, filepath, width, height)</div>
+                        <div class="api-alias"><span data-zh="别名: save_image" data-en="Alias: 保存图片">别名: save_image</span></div>
+                    </div>
+                    <div class="api-body">
+                        <div class="api-desc" data-zh="将位图数据保存为 BMP 格式图片文件。" data-en="Save bitmap data as BMP format image file.">将位图数据保存为 BMP 格式图片文件。</div>
+                        <div class="api-params">
+                            <h4 data-zh="参数" data-en="Parameters">参数</h4>
+                            <ul class="param-list">
+                                <li><span class="param-name">bitmap_data</span> <span class="param-type">bytes</span> - <span data-zh="二进制格式的 BGRA 图像数据" data-en="BGRA image data">二进制格式的 BGRA 图像数据</span></li>
+                                <li><span class="param-name">filepath</span> <span class="param-type">str</span> - <span data-zh="图片文件保存路径" data-en="Output file path">图片文件保存路径</span></li>
+                                <li><span class="param-name">width, height</span> <span class="param-type">int</span> - <span data-zh="图像宽高（可选）" data-en="Image dimensions (optional)">图像宽高（可选）</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="examples">
+            <h2 data-zh="使用示例" data-en="Usage Examples">使用示例</h2>
+            
+            <div class="code-block">
+                <div class="code-header"><span data-zh="示例 1: 基础截图" data-en="Example 1: Basic Capture">示例 1: 基础截图</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                <pre id="ex1"><code><span class="keyword">import</span> 截图
+
+截图.<span class="function">设置DPI感知</span>()
+data = 截图.<span class="function">全屏截图</span>()
+截图.<span class="function">保存图片</span>(data, <span class="string">"screenshot.bmp"</span>)</code></pre>
+            </div>
+            
+            <div class="code-block" style="margin-top: 1.5rem;">
+                <div class="code-header"><span data-zh="示例 2: 区域截图" data-en="Example 2: Region Capture">示例 2: 区域截图</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                <pre id="ex2"><code><span class="keyword">import</span> 截图
+
+data = 截图.<span class="function">BitBlt截图</span>(<span class="number">100</span>, <span class="number">100</span>, <span class="number">800</span>, <span class="number">600</span>)
+截图.<span class="function">保存图片</span>(data, <span class="string">"region.bmp"</span>)</code></pre>
+            </div>
+            
+            <div class="code-block" style="margin-top: 1.5rem;">
+                <div class="code-header"><span data-zh="示例 3: 窗口截图" data-en="Example 3: Window Capture">示例 3: 窗口截图</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                <pre id="ex3"><code><span class="keyword">import</span> 截图
+<span class="keyword">import</span> ctypes
+
+user32 = ctypes.windll.user32
+hwnd = user32.FindWindowW(<span class="string">"Notepad"</span>, <span class="keyword">None</span>)
+
+<span class="keyword">if</span> hwnd:
+    left, top, right, bottom = 截图.<span class="function">获取窗口位置</span>(hwnd)
+    data = 截图.<span class="function">PrintWindow截图</span>(right-left, bottom-top, hwnd)
+    截图.<span class="function">保存图片</span>(data, <span class="string">"window.bmp"</span>)</code></pre>
+            </div>
+            
+            <div class="code-block" style="margin-top: 1.5rem;">
+                <div class="code-header"><span data-zh="示例 4: 缩放截图" data-en="Example 4: Scaled Capture">示例 4: 缩放截图</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                <pre id="ex4"><code><span class="keyword">import</span> 截图
+
+data = 截图.<span class="function">StretchBlt截图</span>(<span class="number">640</span>, <span class="number">360</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1920</span>, <span class="number">1080</span>)
+截图.<span class="function">保存图片</span>(data, <span class="string">"scaled.bmp"</span>)</code></pre>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p data-zh="WinShot - 轻量级 Windows 截图库" data-en="WinShot - Lightweight Windows Screenshot Library">WinShot - 轻量级 Windows 截图库</p>
+        <p style="margin-top: 0.5rem;" data-zh="基于 Windows GDI API 实现 | 纯 Python | 零依赖" data-en="Based on Windows GDI API | Pure Python | Zero Dependencies">基于 Windows GDI API 实现 | 纯 Python | 零依赖</p>
+    </footer>
+    
+    <script>
+        const codeZh = {
+            'code-import': '<code><span class="keyword">import</span> 截图</code>',
+            'code-dpi': '<code>截图.<span class="function">设置DPI感知</span>()</code>',
+            'code-capture': '<code>data = 截图.<span class="function">全屏截图</span>()\n截图.<span class="function">保存图片</span>(data, <span class="string">"screenshot.bmp"</span>)</code>',
+            'ex1': '<code><span class="keyword">import</span> 截图\n\n截图.<span class="function">设置DPI感知</span>()\ndata = 截图.<span class="function">全屏截图</span>()\n截图.<span class="function">保存图片</span>(data, <span class="string">"screenshot.bmp"</span>)</code>',
+            'ex2': '<code><span class="keyword">import</span> 截图\n\ndata = 截图.<span class="function">BitBlt截图</span>(<span class="number">100</span>, <span class="number">100</span>, <span class="number">800</span>, <span class="number">600</span>)\n截图.<span class="function">保存图片</span>(data, <span class="string">"region.bmp"</span>)</code>',
+            'ex3': '<code><span class="keyword">import</span> 截图\n<span class="keyword">import</span> ctypes\n\nuser32 = ctypes.windll.user32\nhwnd = user32.FindWindowW(<span class="string">"Notepad"</span>, <span class="keyword">None</span>)\n\n<span class="keyword">if</span> hwnd:\n    left, top, right, bottom = 截图.<span class="function">获取窗口位置</span>(hwnd)\n    data = 截图.<span class="function">PrintWindow截图</span>(right-left, bottom-top, hwnd)\n    截图.<span class="function">保存图片</span>(data, <span class="string">"window.bmp"</span>)</code>',
+            'ex4': '<code><span class="keyword">import</span> 截图\n\ndata = 截图.<span class="function">StretchBlt截图</span>(<span class="number">640</span>, <span class="number">360</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1920</span>, <span class="number">1080</span>)\n截图.<span class="function">保存图片</span>(data, <span class="string">"scaled.bmp"</span>)</code>'
+        };
+        
+        const codeEn = {
+            'code-import': '<code><span class="keyword">import</span> winshot</code>',
+            'code-dpi': '<code>winshot.<span class="function">set_process_dpi_awareness</span>()</code>',
+            'code-capture': '<code>data = winshot.<span class="function">full_screenshot</span>()\nwinshot.<span class="function">save_image</span>(data, <span class="string">"screenshot.bmp"</span>)</code>',
+            'ex1': '<code><span class="keyword">import</span> winshot\n\nwinshot.<span class="function">set_process_dpi_awareness</span>()\ndata = winshot.<span class="function">full_screenshot</span>()\nwinshot.<span class="function">save_image</span>(data, <span class="string">"screenshot.bmp"</span>)</code>',
+            'ex2': '<code><span class="keyword">import</span> winshot\n\ndata = winshot.<span class="function">bitblt_screenshot</span>(<span class="number">100</span>, <span class="number">100</span>, <span class="number">800</span>, <span class="number">600</span>)\nwinshot.<span class="function">save_image</span>(data, <span class="string">"region.bmp"</span>)</code>',
+            'ex3': '<code><span class="keyword">import</span> winshot\n<span class="keyword">import</span> ctypes\n\nuser32 = ctypes.windll.user32\nhwnd = user32.FindWindowW(<span class="string">"Notepad"</span>, <span class="keyword">None</span>)\n\n<span class="keyword">if</span> hwnd:\n    left, top, right, bottom = winshot.<span class="function">get_window_position</span>(hwnd)\n    data = winshot.<span class="function">printwindow_screenshot</span>(right-left, bottom-top, hwnd)\n    winshot.<span class="function">save_image</span>(data, <span class="string">"window.bmp"</span>)</code>',
+            'ex4': '<code><span class="keyword">import</span> winshot\n\ndata = winshot.<span class="function">stretchblt_screenshot</span>(<span class="number">640</span>, <span class="number">360</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1920</span>, <span class="number">1080</span>)\nwinshot.<span class="function">save_image</span>(data, <span class="string">"scaled.bmp"</span>)</code>'
+        };
+        
+        const langBtns = document.querySelectorAll('.lang-btn');
+        
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.lang;
+                langBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                document.querySelectorAll('[data-zh][data-en]').forEach(el => {
+                    el.textContent = el.dataset[lang];
+                });
+                
+                document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+                
+                // Update code blocks
+                const codes = lang === 'zh' ? codeZh : codeEn;
+                Object.keys(codes).forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.innerHTML = codes[id];
+                });
+            });
+        });
+        
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const lang = document.querySelector('.lang-btn.active').dataset.lang;
+                btn.textContent = lang === 'zh' ? '已复制!' : 'Copied!';
+                setTimeout(() => { btn.textContent = lang === 'zh' ? '复制' : 'Copy'; }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

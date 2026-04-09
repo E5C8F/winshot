@@ -36,3 +36,10 @@
 
 ```python
 import 截图  # or import winshot
+```
+
+### 3. 详细文档和介绍
+[https://e5c8f.github.io/winshot/](https://e5c8f.github.io/winshot/)
+
+
+

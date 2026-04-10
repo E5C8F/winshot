@@ -1,3 +1,8 @@
+
+
+
+[![切换至中文](https://img.shields.io/badge/语言-中文-red.svg)](README.md)
+[![Switch to English](https://img.shields.io/badge/Language-English-blue.svg)](README.en.md)
 # winshot
 
 Windows 截图库 - 基于 WinAPI 实现的高性能截图工具

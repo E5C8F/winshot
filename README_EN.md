@@ -11,6 +11,10 @@
 ```bash
 pip install git+https://github.com/E5C8F/winshot.git
 ```
+or
+```
+pip install winshot
+```
 
 ## Quick Start
 
@@ -183,4 +187,5 @@ GNU General Public License v3.0
 - [Homepage](https://e5c8f.github.io/winshot)
 - [GitHub](https://github.com/E5C8F/winshot)
 - [Issue Tracker](https://github.com/E5C8F/winshot/issues)
-```
+- [pypi](https://pypi.org/project/winshot)
+

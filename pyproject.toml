@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "winshot"
-version = "1.0.0"
+version = "1.0.1"
 description = "Windows screenshot library using WinAPI - supports BitBlt, StretchBlt, PrintWindow methods"
 readme = "README.md"
 license = {text = "GPL-3.0-only"}
@@ -36,3 +36,4 @@ Issues = "https://github.com/E5C8F/winshot/issues"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["winshot*"]
+

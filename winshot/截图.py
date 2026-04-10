@@ -350,13 +350,3 @@ def 保存图片(位图数据: bytes, 保存路径: str, *, 宽度: int = None, 
     with open( fr'\\?\{os.path.abspath(保存路径)}', 'wb') as 文件:
         文件.write(文件头 + 信息头 + 位图数据)
 
-
-bitblt_screenshot = BitBlt截图
-stretchblt_screenshot = StretchBlt截图
-printwindow_screenshot = PrintWindow截图
-get_window_position = 获取窗口位置
-set_process_dpi_awareness = 设置DPI感知
-foreground_window_screenshot = 前台窗口截图
-full_screenshot = 全屏截图
-save_image = 保存图片
-

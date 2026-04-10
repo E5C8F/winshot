@@ -12,6 +12,10 @@ Windows 截图库 - 基于 WinAPI 实现的高性能截图工具
 ```bash
 pip install git+https://github.com/E5C8F/winshot.git
 ```
+或者
+```
+pip install winshot
+```
 
 ## 快速开始
 
@@ -184,3 +188,4 @@ GNU General Public License v3.0
 - [主页](https://e5c8f.github.io/winshot)
 - [GitHub](https://github.com/E5C8F/winshot)
 - [问题反馈](https://github.com/E5C8F/winshot/issues)
+- [pypi](https://pypi.org/project/winshot)
